@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+const APP_URL = "https://app.thefantasticleagues.com";
+
+const scoringFormats = [
+  { name: "Rotisserie", desc: "Season-long cumulative stats across 10 categories. The classic format.", available: true },
+  { name: "H2H Categories", desc: "Weekly matchups — win more stat categories than your opponent each week.", available: true },
+  { name: "H2H Points", desc: "Weekly matchups — highest total points wins. Simple and exciting.", available: true },
+];
+
+const features = [
+  { icon: "&#x2696;", title: "Auction Engine", desc: "Real-time bidding with spending pace, value overlays, and AI bid advice. The most feature-rich auction draft on any platform." },
+  { icon: "&#x1F9E0;", title: "AI Insights", desc: "8 AI features powered by Google Gemini & Anthropic Claude. Draft grades, trade analysis, weekly insights — all context-aware to YOUR league." },
+  { icon: "&#x1F6E1;", title: "Commissioner Tools", desc: "Franchise management, season lifecycle, roster import, financial tracking, audit logs. Everything a commissioner needs." },
+  { icon: "&#x1F4E6;", title: "League History", desc: "Import 20 years of history from Excel. All-time records, past drafts, historical standings. Your league's story, preserved." },
+  { icon: "&#x1F4F1;", title: "Mobile-Ready", desc: "Bottom tab nav, responsive tables, touch-optimized controls. Manage your team from anywhere." },
+  { icon: "&#x2728;", title: "League Digest", desc: "AI-generated weekly recap with team grades, hot/cold teams, and Trade of the Week poll. The league newsletter writes itself." },
+];
+
+const pricingTiers = [
+  {
+    name: "Free",
+    price: "$0",
+    period: "forever",
+    desc: "Everything you need to run a league",
+    features: ["Auction draft", "Rotisserie scoring", "10 teams", "Basic stats", "Commissioner tools"],
+    cta: "Create Your League",
+    highlight: false,
+  },
+  {
+    name: "Pro",
+    price: "$9.99",
+    period: "/mo",
+    desc: "AI-powered league management",
+    features: ["All Free features", "AI Insights (8 features)", "All draft formats", "H2H matchups", "Advanced analytics", "Priority support"],
+    cta: "Coming Soon",
+    highlight: true,
+    badge: "Most Popular",
+  },
+  {
+    name: "Elite",
+    price: "$29.99",
+    period: "/mo",
+    desc: "For serious commissioners",
+    features: ["All Pro features", "Custom AI models", "White-label branding", "Multi-league management", "API access", "Dedicated support"],
+    cta: "Coming Soon",
+    highlight: false,
+  },
+];
+---
+
+<Base title="Fantasy Baseball, Powered by AI">
+  <!-- Hero -->
+  <section class="relative px-4 pt-20 pb-24 text-center">
+    <div class="text-7xl mb-6">&#9918;</div>
+    <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+      Fantasy Baseball,<br />Powered by AI
+    </h1>
+    <p class="text-lg text-slate-400 max-w-xl mx-auto mb-10">
+      The only fantasy platform with league-context AI. Draft grades, trade analysis, weekly insights — all tailored to your league.
+    </p>
+    <div class="flex items-center justify-center gap-4">
+      <a href={`${APP_URL}/signup`} class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors">
+        Create Your League
+      </a>
+      <a href="#features" class="text-slate-400 hover:text-white font-medium transition-colors">
+        See Features &rsaquo;
+      </a>
+    </div>
+    <p class="text-xs text-slate-500 mt-3">No credit card required</p>
+  </section>
+
+  <!-- Formats -->
+  <section id="formats" class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-white text-center mb-3">Choose Your Format</h2>
+    <p class="text-slate-400 text-center mb-10">Play the way your league likes. More formats coming soon.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {scoringFormats.map((f) => (
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-semibold text-white text-lg">{f.name}</h3>
+            {f.available && <span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">Available</span>}
+          </div>
+          <p class="text-sm text-slate-400">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-white text-center mb-10">Built for Serious Leagues</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map((f) => (
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="text-2xl mb-3" set:html={f.icon} />
+          <h3 class="font-semibold text-white mb-2">{f.title}</h3>
+          <p class="text-sm text-slate-400">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-white text-center mb-10">Simple Pricing</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {pricingTiers.map((t) => (
+        <div class={`rounded-2xl p-6 border ${t.highlight ? 'bg-brand-500/10 border-brand-500/30' : 'bg-white/5 border-white/10'}`}>
+          {t.badge && <span class="text-[10px] font-bold uppercase text-brand-400 bg-brand-400/10 px-2 py-0.5 rounded-full border border-brand-400/20 mb-3 inline-block">{t.badge}</span>}
+          <h3 class="text-xl font-bold text-white">{t.name}</h3>
+          <div class="mt-2 mb-4">
+            <span class="text-4xl font-extrabold text-white">{t.price}</span>
+            <span class="text-slate-400 text-sm"> {t.period}</span>
+          </div>
+          <p class="text-sm text-slate-400 mb-6">{t.desc}</p>
+          <ul class="space-y-2 mb-6">
+            {t.features.map((feat) => (
+              <li class="text-sm text-slate-300 flex items-center gap-2">
+                <span class="text-emerald-400">&#10003;</span> {feat}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={t.cta === "Coming Soon" ? "#" : `${APP_URL}/signup`}
+            class={`block text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${
+              t.highlight
+                ? 'bg-brand-500 hover:bg-brand-600 text-white'
+                : t.cta === "Coming Soon"
+                  ? 'bg-white/5 text-slate-400 cursor-not-allowed'
+                  : 'bg-white/10 hover:bg-white/20 text-white'
+            }`}
+          >
+            {t.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="text-center py-20 px-4">
+    <h2 class="text-3xl font-bold text-white mb-4">Ready to Draft?</h2>
+    <p class="text-slate-400 mb-8 max-w-md mx-auto">Set up your league in minutes. Free forever — no credit card required.</p>
+    <a href={`${APP_URL}/signup`} class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors">
+      Create Your League
+    </a>
+  </section>
+</Base>

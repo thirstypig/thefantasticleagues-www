@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "tinacms dev -c \"astro dev --port 3030\"",
-    "build": "tinacms build && astro build",
+    "dev:astro": "astro dev --port 3030",
+    "build": "astro build",
+    "build:tina": "tinacms build && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

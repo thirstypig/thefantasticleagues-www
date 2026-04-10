@@ -23,26 +23,26 @@ const pricingTiers = [
     price: "$0",
     period: "forever",
     desc: "Everything you need to run a league",
-    features: ["Auction draft", "Rotisserie scoring", "10 teams", "Basic stats", "Commissioner tools"],
+    features: ["Auction & snake drafts", "Roto & H2H scoring", "10 teams per league", "Real-time MLB stats", "Commissioner tools"],
     cta: "Create Your League",
     highlight: false,
   },
   {
     name: "Pro",
-    price: "$9.99",
-    period: "/mo",
+    price: "$29",
+    period: "/season",
     desc: "AI-powered league management",
-    features: ["All Free features", "AI Insights (8 features)", "All draft formats", "H2H matchups", "Advanced analytics", "Priority support"],
+    features: ["All Free features", "AI Insights (8 features)", "FanGraphs projections", "Statcast stats", "Priority notifications", "Unlimited leagues"],
     cta: "Coming Soon",
     highlight: true,
     badge: "Most Popular",
   },
   {
-    name: "Elite",
-    price: "$29.99",
-    period: "/mo",
+    name: "Commissioner",
+    price: "$49",
+    period: "/season per league",
     desc: "For serious commissioners",
-    features: ["All Pro features", "Custom AI models", "White-label branding", "Multi-league management", "API access", "Dedicated support"],
+    features: ["All Pro features", "League health dashboard", "Custom scoring rules", "Archive import (20+ years)", "Announcement system", "Dedicated support"],
     cta: "Coming Soon",
     highlight: false,
   },
@@ -138,10 +138,29 @@ const pricingTiers = [
     </div>
   </section>
 
+  <!-- Email Signup -->
+  <section class="max-w-2xl mx-auto px-4 py-16 text-center">
+    <h2 class="text-3xl font-bold text-white mb-3">Stay in the Loop</h2>
+    <p class="text-slate-400 mb-8">Get notified when Pro and Commissioner tiers launch, plus early access to new features.</p>
+    <form action="https://app.thefantasticleagues.com/api/auth/subscribe" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        class="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500"
+      />
+      <button type="submit" class="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors whitespace-nowrap">
+        Notify Me
+      </button>
+    </form>
+    <p class="text-xs text-slate-500 mt-3">No spam. Unsubscribe anytime.</p>
+  </section>
+
   <!-- CTA -->
   <section class="text-center py-20 px-4">
     <h2 class="text-3xl font-bold text-white mb-4">Ready to Draft?</h2>
-    <p class="text-slate-400 mb-8 max-w-md mx-auto">Set up your league in minutes. Free forever — no credit card required.</p>
+    <p class="text-slate-400 mb-8 max-w-md mx-auto">The 2026 season is free for all features. Set up your league in minutes.</p>
     <a href={`${APP_URL}/signup`} class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors">
       Create Your League
     </a>

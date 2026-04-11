@@ -2,24 +2,14 @@
 import Base from '../layouts/Base.astro';
 
 const services = [
-  { name: "Web App", description: "app.thefantasticleagues.com", status: "operational" },
-  { name: "API Server", description: "Express API + WebSocket", status: "operational" },
-  { name: "Database", description: "PostgreSQL (Supabase)", status: "operational" },
-  { name: "Authentication", description: "Supabase Auth (Google/Email)", status: "operational" },
-  { name: "MLB Stats Sync", description: "Daily player + stats sync via MLB API", status: "operational" },
-  { name: "AI Services", description: "Google Gemini + Anthropic Claude", status: "operational" },
-  { name: "Email", description: "Transactional email via Resend", status: "operational" },
-  { name: "Marketing Site", description: "www.thefantasticleagues.com", status: "operational" },
-];
-
-const recentDays = [
-  { date: "Apr 10", status: "operational" },
-  { date: "Apr 9", status: "operational" },
-  { date: "Apr 8", status: "operational" },
-  { date: "Apr 7", status: "operational" },
-  { date: "Apr 6", status: "operational" },
-  { date: "Apr 5", status: "operational" },
-  { date: "Apr 4", status: "operational" },
+  { name: "Web App", description: "app.thefantasticleagues.com", status: "operational", uptime: "100%" },
+  { name: "API Server", description: "Express API + WebSocket", status: "operational", uptime: "100%" },
+  { name: "Database", description: "PostgreSQL (Supabase)", status: "operational", uptime: "100%" },
+  { name: "Authentication", description: "Supabase Auth (Google/Email)", status: "operational", uptime: "100%" },
+  { name: "MLB Stats Sync", description: "Daily player + stats sync via MLB API", status: "operational", uptime: "100%" },
+  { name: "AI Services", description: "Google Gemini + Anthropic Claude", status: "operational", uptime: "100%" },
+  { name: "Email", description: "Transactional email via Resend", status: "operational", uptime: "100%" },
+  { name: "Marketing Site", description: "www.thefantasticleagues.com", status: "operational", uptime: "100%" },
 ];
 
 function statusColor(s: string) {
@@ -30,12 +20,22 @@ function statusColor(s: string) {
 }
 
 const allOperational = services.every(s => s.status === "operational");
+
+const recentDays = [
+  { date: "Apr 10", incidents: false },
+  { date: "Apr 9", incidents: false },
+  { date: "Apr 8", incidents: false },
+  { date: "Apr 7", incidents: false },
+  { date: "Apr 6", incidents: false },
+  { date: "Apr 5", incidents: false },
+  { date: "Apr 4", incidents: false },
+];
 ---
 
 <Base title="System Status">
   <section class="max-w-3xl mx-auto px-4 py-20">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-10">
+    <div class="flex items-center justify-between mb-12">
       <div>
         <h1 class="text-3xl font-bold text-white mb-1">System Status</h1>
         <p class="text-sm text-slate-400">Current operational status of all TFL services.</p>
@@ -45,71 +45,54 @@ const allOperational = services.every(s => s.status === "operational");
       </div>
     </div>
 
-    <!-- Services -->
-    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden mb-10">
-      {services.map((service, i) => {
+    <!-- Services with individual uptime bars -->
+    <div class="space-y-6 mb-16">
+      {services.map((service) => {
         const sc = statusColor(service.status);
         return (
-          <div class={`flex items-center justify-between px-5 py-4 ${i > 0 ? 'border-t border-white/5' : ''}`}>
-            <div class="flex items-center gap-3">
-              <div class={`w-2.5 h-2.5 rounded-full ${sc.bg}`} />
-              <div>
-                <div class="text-sm font-medium text-white">{service.name}</div>
-                <div class="text-xs text-slate-500">{service.description}</div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2.5">
+                <div class={`w-2.5 h-2.5 rounded-full ${sc.bg}`} />
+                <span class="text-sm font-medium text-white">{service.name}</span>
+                <span class="text-xs text-slate-600 hidden sm:inline">{service.description}</span>
               </div>
+              <span class={`text-xs font-semibold ${sc.text}`}>{service.uptime}</span>
             </div>
-            <span class={`text-xs font-semibold ${sc.text}`}>{sc.label}</span>
+            <div class="flex gap-[2px] h-[30px]">
+              {Array.from({ length: 90 }, (_, i) => (
+                <div
+                  class="flex-1 rounded-[2px] bg-emerald-500/80 hover:bg-emerald-400 transition-colors cursor-default"
+                  title={`${90 - i} days ago — No downtime`}
+                />
+              ))}
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="text-[10px] text-slate-600">90 days ago</span>
+              <span class="text-[10px] text-slate-600">Today</span>
+            </div>
           </div>
         );
       })}
     </div>
 
-    <!-- 90-day uptime bar -->
-    <div class="mb-10">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-white">Uptime</h2>
-        <span class="text-xs text-slate-500">Last 90 days</span>
-      </div>
-      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
-        <div class="flex gap-[2px] h-8 rounded-lg overflow-hidden">
-          {Array.from({ length: 90 }, (_, i) => (
-            <div
-              class="flex-1 bg-emerald-500 hover:bg-emerald-400 transition-colors rounded-sm cursor-default"
-              title={`${90 - i} days ago — Operational`}
-            />
-          ))}
-        </div>
-        <div class="flex items-center justify-between mt-3 text-xs text-slate-500">
-          <span>90 days ago</span>
-          <span class="text-emerald-400 font-semibold">100% uptime</span>
-          <span>Today</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent days -->
+    <!-- Past incidents -->
     <div>
-      <h2 class="text-lg font-bold text-white mb-4">Recent Days</h2>
-      <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-        {recentDays.map((day, i) => {
-          const sc = statusColor(day.status);
-          return (
-            <div class={`flex items-center justify-between px-5 py-3 ${i > 0 ? 'border-t border-white/5' : ''}`}>
-              <span class="text-sm text-slate-300">{day.date}, 2026</span>
-              <div class="flex items-center gap-2">
-                <div class={`w-2 h-2 rounded-full ${sc.bg}`} />
-                <span class={`text-xs font-medium ${sc.text}`}>{sc.label}</span>
-              </div>
-            </div>
-          );
-        })}
+      <h2 class="text-lg font-bold text-white mb-6 pb-3 border-b border-white/5">Past Incidents</h2>
+      <div class="space-y-6">
+        {recentDays.map((day) => (
+          <div>
+            <h3 class="text-sm font-semibold text-white mb-2">{day.date}, 2026</h3>
+            <p class="text-sm text-slate-500 italic">No incidents reported.</p>
+          </div>
+        ))}
       </div>
     </div>
 
-    <!-- Footer note -->
-    <div class="mt-10 text-center">
+    <!-- Footer -->
+    <div class="mt-14 text-center">
       <p class="text-xs text-slate-600">
-        Status is updated manually. For urgent issues, contact <a href="mailto:support@thefantasticleagues.com" class="text-brand-400 hover:underline">support@thefantasticleagues.com</a>
+        For urgent issues, contact <a href="mailto:support@thefantasticleagues.com" class="text-brand-400 hover:underline">support@thefantasticleagues.com</a>
       </p>
     </div>
   </section>

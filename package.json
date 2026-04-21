@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev --port 3030\"",
-    "dev:astro": "astro dev --port 3030",
+    "dev": "tinacms dev -c \"astro dev --port 3011\"",
+    "dev:astro": "astro dev --port 3011",
     "build": "astro build",
     "build:tina": "tinacms build && astro build",
     "preview": "astro preview",

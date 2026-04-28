@@ -2,10 +2,27 @@
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  ogType?: "website" | "article";
 }
 
-const { title, description = "Fantasy baseball league management powered by AI. Draft grades, trade analysis, weekly insights — all tailored to your league." } = Astro.props;
+const {
+  title,
+  description = "Fantasy baseball league management powered by AI. Draft grades, trade analysis, weekly insights — all tailored to your league.",
+  image,
+  ogType = "website",
+} = Astro.props;
 const APP_URL = "https://app.thefantasticleagues.com";
+const SITE_NAME = "The Fantastic Leagues";
+const fullTitle = `${title} | ${SITE_NAME}`;
+// Canonical URL adapts to the deployed host (Astro.site takes precedence when
+// set in astro.config). Using Astro.url.pathname keeps query strings out of
+// canonical — Google treats ?utm_source= variants as dupes otherwise.
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+// og:image is only emitted when a page opts in by passing `image`. Pointing
+// at a non-existent asset (e.g. /og-cover.png) produces broken link-preview
+// tiles in Slack/LinkedIn and shows up as an error in GSC's image coverage.
+const ogImage = image ? new URL(image, Astro.site ?? Astro.url.origin).toString() : null;
 ---
 
 <!doctype html>
@@ -14,8 +31,23 @@ const APP_URL = "https://app.thefantasticleagues.com";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title} | The Fantastic Leagues</title>
+    <title>{fullTitle}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     <!-- Google Analytics 4 (marketing site) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5FS3SKCH55"></script>

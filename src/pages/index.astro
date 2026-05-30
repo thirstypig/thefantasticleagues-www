@@ -9,12 +9,12 @@ const scoringFormats = [
 ];
 
 const features = [
-  { icon: "&#x2696;", title: "Auction Engine", desc: "Real-time bidding with spending pace, value overlays, and AI bid advice. The most feature-rich auction draft on any platform." },
-  { icon: "&#x1F9E0;", title: "AI Insights", desc: "8 AI features powered by Google Gemini & Anthropic Claude. Draft grades, trade analysis, weekly insights — all context-aware to YOUR league." },
-  { icon: "&#x1F6E1;", title: "Commissioner Tools", desc: "Franchise management, season lifecycle, roster import, financial tracking, audit logs. Everything a commissioner needs." },
-  { icon: "&#x1F4E6;", title: "League History", desc: "Import 20 years of history from Excel. All-time records, past drafts, historical standings. Your league's story, preserved." },
-  { icon: "&#x1F4F1;", title: "Mobile-Ready", desc: "Bottom tab nav, responsive tables, touch-optimized controls. Manage your team from anywhere." },
-  { icon: "&#x2728;", title: "League Digest", desc: "AI-generated weekly recap with team grades, hot/cold teams, and Trade of the Week poll. The league newsletter writes itself." },
+  { icon: "⚖️", title: "Auction Engine", desc: "Real-time bidding with spending pace, value overlays, and AI bid advice. The most feature-rich auction draft on any platform." },
+  { icon: "🧠", title: "AI Insights", desc: "8 AI features powered by Google Gemini & Anthropic Claude. Draft grades, trade analysis, weekly insights — all context-aware to YOUR league." },
+  { icon: "🛡️", title: "Commissioner Tools", desc: "Franchise management, season lifecycle, roster import, financial tracking, audit logs. Everything a commissioner needs." },
+  { icon: "📦", title: "League History", desc: "Import 20 years of history from Excel. All-time records, past drafts, historical standings. Your league's story, preserved." },
+  { icon: "📱", title: "Mobile-Ready", desc: "Bottom tab nav, responsive tables, touch-optimized controls. Manage your team from anywhere." },
+  { icon: "✨", title: "League Digest", desc: "AI-generated weekly recap with team grades, hot/cold teams, and Trade of the Week poll. The league newsletter writes itself." },
 ];
 
 const pricingTiers = [
@@ -50,87 +50,104 @@ const pricingTiers = [
 ---
 
 <Base title="Fantasy Baseball, Powered by AI">
+
   <!-- Hero -->
-  <section class="relative px-4 pt-20 pb-24 text-center">
-    <div style="width: 64px; height: 64px; margin: 0 auto 24px; border-radius: 18px; background: var(--am-irid); box-shadow: 0 18px 50px rgba(177, 75, 255, 0.35);"></div>
-    <h1 class="am-display text-5xl md:text-7xl font-light leading-tight mb-6" style="letter-spacing: -0.02em;">
-      <span style="color: var(--am-text);">Fantasy Baseball,</span><br />
-      <span class="am-irid-text">Powered by AI</span>
+  <section class="px-4 pt-20 pb-24 text-center">
+    <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-8 px-3 py-1.5 rounded-full" style="background: var(--am-chip); color: var(--am-accent); border: 1px solid var(--am-border);">
+      ⚾ 2026 Season Live
+    </div>
+    <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6" style="letter-spacing: -0.03em; color: var(--am-text);">
+      Fantasy Baseball,<br />
+      <span style="color: var(--am-accent);">Powered by AI</span>
     </h1>
-    <p class="text-lg max-w-xl mx-auto mb-10" style="color: var(--am-text-muted);">
+    <p class="text-lg max-w-xl mx-auto mb-10" style="color: var(--am-text-muted); line-height: 1.7;">
       The only fantasy platform with league-context AI. Draft grades, trade analysis, weekly insights — all tailored to your league.
     </p>
-    <div class="flex items-center justify-center gap-4">
-      <a href={`${APP_URL}/signup`} class="am-irid-bg px-8 py-3 rounded-full font-semibold text-base transition-transform hover:scale-105" style="box-shadow: 0 14px 40px rgba(177, 75, 255, 0.30);">
+    <div class="flex items-center justify-center gap-4 flex-wrap">
+      <a href={`${APP_URL}/signup`} class="am-btn-primary px-8 py-3 text-base">
         Create Your League
       </a>
-      <a href="#features" class="font-medium transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">
-        See Features &rsaquo;
+      <a href="#features" class="am-btn-ghost px-6 py-3 text-base">
+        See Features →
       </a>
     </div>
-    <p class="text-xs mt-3" style="color: var(--am-text-faint);">No credit card required</p>
+    <p class="text-xs mt-4" style="color: var(--am-text-faint);">No credit card required</p>
   </section>
+
+  <!-- Divider -->
+  <div class="max-w-5xl mx-auto px-4" style="border-top: 1px solid var(--am-border);"></div>
 
   <!-- Formats -->
   <section id="formats" class="max-w-5xl mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold text-white text-center mb-3">Choose Your Format</h2>
-    <p class="text-slate-400 text-center mb-10">Play the way your league likes. More formats coming soon.</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <h2 class="text-2xl font-bold text-center mb-2" style="color: var(--am-text);">Choose Your Format</h2>
+    <p class="text-center mb-10 text-sm" style="color: var(--am-text-muted);">Play the way your league likes. More formats coming soon.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       {scoringFormats.map((f) => (
-        <div class="am-glass p-6">
+        <div class="am-card p-6">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold text-white text-lg">{f.name}</h3>
-            {f.available && <span class="text-[10px] font-bold uppercase text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">Available</span>}
+            <h3 class="font-semibold text-base" style="color: var(--am-text);">{f.name}</h3>
+            {f.available && (
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full" style="color: var(--am-accent); background: var(--am-chip); border: 1px solid var(--am-border);">
+                Available
+              </span>
+            )}
           </div>
-          <p class="text-sm text-slate-400">{f.desc}</p>
+          <p class="text-sm" style="color: var(--am-text-muted);">{f.desc}</p>
         </div>
       ))}
     </div>
   </section>
+
+  <!-- Divider -->
+  <div class="max-w-5xl mx-auto px-4" style="border-top: 1px solid var(--am-border);"></div>
 
   <!-- Features -->
   <section id="features" class="max-w-5xl mx-auto px-4 py-16">
-    <h2 class="am-display text-3xl font-light text-center mb-10" style="color: var(--am-text); letter-spacing: -0.01em;">Built for Serious Leagues</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <h2 class="text-2xl font-bold text-center mb-2" style="color: var(--am-text);">Built for Serious Leagues</h2>
+    <p class="text-center mb-10 text-sm" style="color: var(--am-text-muted);">Every feature a keeper-league commissioner actually needs.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {features.map((f) => (
-        <div class="am-glass p-6">
-          <div class="text-2xl mb-3" set:html={f.icon} />
-          <h3 class="font-semibold text-white mb-2">{f.title}</h3>
-          <p class="text-sm text-slate-400">{f.desc}</p>
+        <div class="am-card p-6">
+          <div class="text-2xl mb-3">{f.icon}</div>
+          <h3 class="font-semibold mb-2" style="color: var(--am-text);">{f.title}</h3>
+          <p class="text-sm" style="color: var(--am-text-muted);">{f.desc}</p>
         </div>
       ))}
     </div>
   </section>
 
+  <!-- Divider -->
+  <div class="max-w-5xl mx-auto px-4" style="border-top: 1px solid var(--am-border);"></div>
+
   <!-- Pricing -->
   <section id="pricing" class="max-w-5xl mx-auto px-4 py-16">
-    <h2 class="am-display text-3xl font-light text-center mb-10" style="color: var(--am-text); letter-spacing: -0.01em;">Simple Pricing</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <h2 class="text-2xl font-bold text-center mb-2" style="color: var(--am-text);">Simple Pricing</h2>
+    <p class="text-center mb-10 text-sm" style="color: var(--am-text-muted);">Start free. Upgrade when you need more.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       {pricingTiers.map((t) => (
-        <div class={`rounded-2xl p-6 border ${t.highlight ? 'bg-brand-500/10 border-brand-500/30' : 'bg-white/5 border-white/10'}`}>
-          {t.badge && <span class="text-[10px] font-bold uppercase text-brand-400 bg-brand-400/10 px-2 py-0.5 rounded-full border border-brand-400/20 mb-3 inline-block">{t.badge}</span>}
-          <h3 class="text-xl font-bold text-white">{t.name}</h3>
+        <div class="am-card p-6 flex flex-col" style={t.highlight ? "border-color: var(--am-accent);" : ""}>
+          {t.badge && (
+            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full mb-3 self-start" style="color: var(--am-accent); background: var(--am-chip); border: 1px solid var(--am-border);">
+              {t.badge}
+            </span>
+          )}
+          <h3 class="text-lg font-bold" style="color: var(--am-text);">{t.name}</h3>
           <div class="mt-2 mb-4">
-            <span class="text-4xl font-extrabold text-white">{t.price}</span>
-            <span class="text-slate-400 text-sm"> {t.period}</span>
+            <span class="text-4xl font-extrabold" style="color: var(--am-text);">{t.price}</span>
+            <span class="text-sm ml-1" style="color: var(--am-text-muted);">{t.period}</span>
           </div>
-          <p class="text-sm text-slate-400 mb-6">{t.desc}</p>
-          <ul class="space-y-2 mb-6">
+          <p class="text-sm mb-6" style="color: var(--am-text-muted);">{t.desc}</p>
+          <ul class="space-y-2 mb-6 flex-1">
             {t.features.map((feat) => (
-              <li class="text-sm text-slate-300 flex items-center gap-2">
-                <span class="text-emerald-400">&#10003;</span> {feat}
+              <li class="text-sm flex items-center gap-2" style="color: var(--am-text-muted);">
+                <span style="color: var(--am-accent);">✓</span> {feat}
               </li>
             ))}
           </ul>
           <a
             href={t.cta === "Coming Soon" ? "#" : `${APP_URL}/signup`}
-            class={`block text-center py-2.5 rounded-xl font-semibold text-sm transition-colors ${
-              t.highlight
-                ? 'bg-brand-500 hover:bg-brand-600 text-white'
-                : t.cta === "Coming Soon"
-                  ? 'bg-white/5 text-slate-400 cursor-not-allowed'
-                  : 'bg-white/10 hover:bg-white/20 text-white'
-            }`}
+            class={t.cta === "Coming Soon" ? "block text-center py-2.5 rounded-lg text-sm font-semibold" : "am-btn-primary block text-center py-2.5 text-sm"}
+            style={t.cta === "Coming Soon" ? "background: var(--am-chip); color: var(--am-text-faint); cursor: not-allowed;" : ""}
           >
             {t.cta}
           </a>
@@ -139,31 +156,38 @@ const pricingTiers = [
     </div>
   </section>
 
+  <!-- Divider -->
+  <div class="max-w-5xl mx-auto px-4" style="border-top: 1px solid var(--am-border);"></div>
+
   <!-- Email Signup -->
   <section class="max-w-2xl mx-auto px-4 py-16 text-center">
-    <h2 class="text-3xl font-bold text-white mb-3">Stay in the Loop</h2>
-    <p class="text-slate-400 mb-8">Get notified when Pro and Commissioner tiers launch, plus early access to new features.</p>
+    <h2 class="text-2xl font-bold mb-3" style="color: var(--am-text);">Stay in the Loop</h2>
+    <p class="mb-8 text-sm" style="color: var(--am-text-muted);">Get notified when Pro and Commissioner tiers launch, plus early access to new features.</p>
     <form action="https://app.thefantasticleagues.com/api/auth/subscribe" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
       <input
         type="email"
         name="email"
         placeholder="you@example.com"
         required
-        class="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500"
+        class="flex-1 px-4 py-2.5 rounded-lg text-sm focus:outline-none"
+        style="background: var(--am-surface); border: 1px solid var(--am-border); color: var(--am-text);"
+        onfocus="this.style.borderColor='var(--am-accent)'"
+        onblur="this.style.borderColor='var(--am-border)'"
       />
-      <button type="submit" class="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors whitespace-nowrap">
+      <button type="submit" class="am-btn-primary px-6 py-2.5 text-sm whitespace-nowrap">
         Notify Me
       </button>
     </form>
-    <p class="text-xs text-slate-500 mt-3">No spam. Unsubscribe anytime.</p>
+    <p class="text-xs mt-3" style="color: var(--am-text-faint);">No spam. Unsubscribe anytime.</p>
   </section>
 
-  <!-- CTA -->
+  <!-- Final CTA -->
   <section class="text-center py-20 px-4">
-    <h2 class="text-3xl font-bold text-white mb-4">Ready to Draft?</h2>
-    <p class="text-slate-400 mb-8 max-w-md mx-auto">The 2026 season is free for all features. Set up your league in minutes.</p>
-    <a href={`${APP_URL}/signup`} class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold text-lg transition-colors">
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--am-text);">Ready to Draft?</h2>
+    <p class="mb-8 max-w-md mx-auto text-sm" style="color: var(--am-text-muted);">The 2026 season is free for all features. Set up your league in minutes.</p>
+    <a href={`${APP_URL}/signup`} class="am-btn-primary px-8 py-3 text-base">
       Create Your League
     </a>
   </section>
+
 </Base>

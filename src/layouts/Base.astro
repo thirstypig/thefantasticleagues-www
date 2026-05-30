@@ -15,13 +15,7 @@ const {
 const APP_URL = "https://app.thefantasticleagues.com";
 const SITE_NAME = "The Fantastic Leagues";
 const fullTitle = `${title} | ${SITE_NAME}`;
-// Canonical URL adapts to the deployed host (Astro.site takes precedence when
-// set in astro.config). Using Astro.url.pathname keeps query strings out of
-// canonical — Google treats ?utm_source= variants as dupes otherwise.
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
-// og:image is only emitted when a page opts in by passing `image`. Pointing
-// at a non-existent asset (e.g. /og-cover.png) produces broken link-preview
-// tiles in Slack/LinkedIn and shows up as an error in GSC's image coverage.
 const ogImage = image ? new URL(image, Astro.site ?? Astro.url.origin).toString() : null;
 ---
 
@@ -49,10 +43,10 @@ const ogImage = image ? new URL(image, Astro.site ?? Astro.url.origin).toString(
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    <!-- Aurora design fonts -->
+    <!-- Score Sheet — Inter only -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Google Analytics 4 (marketing site) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5FS3SKCH55"></script>
@@ -64,114 +58,123 @@ const ogImage = image ? new URL(image, Astro.site ?? Astro.url.origin).toString(
     </script>
 
     <!--
-      Aurora visual identity tokens (mirrored from the FBST app's
-      client/src/components/aurora/aurora.css). Marketing site is
-      dark-only (matches the app's default).
+      Score Sheet design tokens — mirrors the FBST app's aurora.css dark mode values.
+      Flat paper aesthetic: no gradients, no blur, no glassmorphism.
     -->
     <style is:global>
       :root {
-        --am-display: "Space Grotesk", "Inter", system-ui, sans-serif;
-        --am-body: "Inter", system-ui, sans-serif;
-        --am-bg: #050a14;
-        --am-glow-1: radial-gradient(55% 60% at 8% 6%, rgba(42, 240, 200, 0.20), transparent 60%);
-        --am-glow-2: radial-gradient(50% 55% at 96% 14%, rgba(177, 75, 255, 0.22), transparent 60%);
-        --am-glow-3: radial-gradient(60% 70% at 65% 100%, rgba(255, 77, 210, 0.16), transparent 65%);
-        --am-surface: rgba(14, 20, 36, 0.55);
-        --am-surface-strong: rgba(20, 28, 48, 0.72);
-        --am-surface-faint: rgba(255, 255, 255, 0.03);
-        --am-border: rgba(255, 255, 255, 0.10);
-        --am-border-strong: rgba(255, 255, 255, 0.18);
-        --am-text: #eaf2ff;
-        --am-text-muted: #a7b6d6;
-        --am-text-faint: #6c7896;
-        --am-accent: #5cf0d4;
-        --am-cardinal: #ff6db5;
-        --am-irid: linear-gradient(135deg, #2af0c8 0%, #4a8cff 35%, #b14bff 65%, #ff4dd2 100%);
-        --am-chip: rgba(255, 255, 255, 0.06);
-        --am-chip-strong: rgba(255, 255, 255, 0.12);
+        --am-display: "Inter", system-ui, sans-serif;
+        --am-body:    "Inter", system-ui, sans-serif;
+
+        /* Backgrounds */
+        --am-bg:             #3d434b;
+        --am-surface:        #222630;
+        --am-surface-alt:    #292d35;
+        --am-surface-strong: #292d35;
+        --am-surface-faint:  #222630;
+
+        /* Borders */
+        --am-border:        #4a5058;
+        --am-border-strong: #6a7079;
+
+        /* Text */
+        --am-text:       #f1f2ec;
+        --am-text-muted: #d0d2c8;
+        --am-text-faint: #c0c5cb;
+
+        /* Accent — outfield green */
+        --am-accent:   #82c896;
+        --am-accent-2: #8ec1e6;
+        --am-cardinal: #8ec1e6;
+
+        /* Status */
+        --am-positive: #92d292;
+        --am-negative: #e89a9a;
+
+        /* Chips */
+        --am-chip:        #303640;
+        --am-chip-strong: #3b4047;
+
+        /* Gradient stubs — Score Sheet is flat; nothing should render these */
+        --am-glow-1: none;
+        --am-glow-2: none;
+        --am-glow-3: none;
+        --am-irid:   #82c896;
+        --am-ring:   none;
       }
 
       body {
         font-family: var(--am-body);
         background: var(--am-bg);
         color: var(--am-text);
-        position: relative;
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background: var(--am-glow-1), var(--am-glow-2), var(--am-glow-3);
-        z-index: 0;
-      }
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.4;
-        mix-blend-mode: overlay;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-        background-size: 3px 3px;
-        z-index: 0;
-      }
-      main, nav, footer {
-        position: relative;
-        z-index: 1;
       }
 
-      .am-display { font-family: var(--am-display); }
-      .am-irid-text {
-        background: var(--am-irid);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-      .am-glass {
+      /* Flat card — replaces am-glass */
+      .am-card {
         background: var(--am-surface);
-        backdrop-filter: blur(28px) saturate(140%);
-        -webkit-backdrop-filter: blur(28px) saturate(140%);
         border: 1px solid var(--am-border);
-        border-radius: 24px;
-        box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 12px 40px rgba(0,0,0,0.18);
+        border-radius: 12px;
       }
-      .am-glass-strong {
-        background: var(--am-surface-strong);
-        backdrop-filter: blur(28px) saturate(140%);
-        -webkit-backdrop-filter: blur(28px) saturate(140%);
-        border: 1px solid var(--am-border-strong);
-        border-radius: 24px;
-        box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 12px 40px rgba(0,0,0,0.18);
+
+      /* Primary CTA button */
+      .am-btn-primary {
+        display: inline-block;
+        background: var(--am-accent);
+        color: #1c1f1a;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background 0.15s;
       }
-      .am-irid-bg {
-        background: var(--am-irid);
-        color: white;
+      .am-btn-primary:hover {
+        background: #6db584;
       }
+
+      /* Ghost button */
+      .am-btn-ghost {
+        display: inline-block;
+        background: var(--am-surface);
+        color: var(--am-text-muted);
+        border: 1px solid var(--am-border);
+        font-weight: 500;
+        border-radius: 8px;
+        transition: border-color 0.15s, color 0.15s;
+      }
+      .am-btn-ghost:hover {
+        border-color: var(--am-border-strong);
+        color: var(--am-text);
+      }
+
+      /* Legacy aliases — keep so any stray am-glass / am-irid-* references degrade gracefully */
+      .am-glass       { background: var(--am-surface); border: 1px solid var(--am-border); border-radius: 12px; }
+      .am-glass-strong{ background: var(--am-surface-strong); border: 1px solid var(--am-border-strong); border-radius: 12px; }
+      .am-irid-text   { color: var(--am-accent); }
+      .am-irid-bg     { background: var(--am-accent); color: #1c1f1a; }
+      .am-display     { font-family: var(--am-display); }
     </style>
   </head>
   <body>
-    <!-- Nav — Aurora glassmorphism strip -->
-    <nav class="fixed top-0 w-full z-50 backdrop-blur-xl" style="background: rgba(5, 10, 20, 0.7); border-bottom: 1px solid var(--am-border);">
-      <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3 text-lg font-bold" style="color: var(--am-text);">
-          <span class="inline-block" style="width: 28px; height: 28px; border-radius: 8px; background: var(--am-irid); box-shadow: 0 6px 20px rgba(177, 75, 255, 0.25);"></span>
-          <span class="am-display">The Fantastic Leagues</span>
+    <!-- Nav — Score Sheet flat strip -->
+    <nav class="fixed top-0 w-full z-50" style="background: var(--am-surface); border-bottom: 1px solid var(--am-border);">
+      <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 text-base font-semibold" style="color: var(--am-text);">
+          <!-- Score Sheet logo mark: flat green square -->
+          <span class="inline-flex items-center justify-center text-sm" style="width: 26px; height: 26px; border-radius: 6px; background: var(--am-accent); color: #1c1f1a; font-weight: 800; line-height: 1;">⚾</span>
+          <span>The Fantastic Leagues</span>
         </a>
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium" style="color: var(--am-text-muted);">
-          <a href="/#formats" class="transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">Formats</a>
-          <a href="/#features" class="transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">Features</a>
-          <a href="/#pricing" class="transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">Pricing</a>
-          <a href="/blog" class="transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">Blog</a>
+        <div class="hidden md:flex items-center gap-7 text-sm font-medium" style="color: var(--am-text-muted);">
+          <a href="/#formats" class="transition-colors hover:text-[var(--am-text)]">Formats</a>
+          <a href="/#features" class="transition-colors hover:text-[var(--am-text)]">Features</a>
+          <a href="/#pricing" class="transition-colors hover:text-[var(--am-text)]">Pricing</a>
+          <a href="/blog" class="transition-colors hover:text-[var(--am-text)]">Blog</a>
         </div>
         <div class="flex items-center gap-3">
           <a href={`${APP_URL}/login`} class="text-sm transition-colors" style="color: var(--am-text-muted);" onmouseover="this.style.color='var(--am-text)'" onmouseout="this.style.color='var(--am-text-muted)'">Sign In</a>
-          <a href={`${APP_URL}/signup`} class="text-sm am-irid-bg px-4 py-2 rounded-full font-semibold transition-transform hover:scale-105">Start Free</a>
+          <a href={`${APP_URL}/signup`} class="am-btn-primary text-sm px-4 py-1.5">Start Free</a>
         </div>
       </div>
     </nav>
 
-    <main class="pt-16">
+    <main class="pt-14">
       <slot />
     </main>
 
@@ -179,31 +182,31 @@ const ogImage = image ? new URL(image, Astro.site ?? Astro.url.origin).toString(
     <footer class="mt-24" style="border-top: 1px solid var(--am-border);">
       <div class="max-w-6xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
         <div>
-          <h4 class="font-semibold mb-3 am-display" style="color: var(--am-text);">Product</h4>
+          <h4 class="font-semibold mb-3" style="color: var(--am-text);">Product</h4>
           <ul class="space-y-2" style="color: var(--am-text-muted);">
-            <li><a href="/#features" class="hover:text-white">Features</a></li>
-            <li><a href="/#pricing" class="hover:text-white">Pricing</a></li>
-            <li><a href="/#formats" class="hover:text-white">Formats</a></li>
+            <li><a href="/#features" class="hover:text-[var(--am-text)] transition-colors">Features</a></li>
+            <li><a href="/#pricing" class="hover:text-[var(--am-text)] transition-colors">Pricing</a></li>
+            <li><a href="/#formats" class="hover:text-[var(--am-text)] transition-colors">Formats</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold mb-3 am-display" style="color: var(--am-text);">Resources</h4>
+          <h4 class="font-semibold mb-3" style="color: var(--am-text);">Resources</h4>
           <ul class="space-y-2" style="color: var(--am-text-muted);">
-            <li><a href="/blog" class="hover:text-white">Blog</a></li>
-            <li><a href="/status" class="hover:text-white">Status</a></li>
+            <li><a href="/blog" class="hover:text-[var(--am-text)] transition-colors">Blog</a></li>
+            <li><a href="/status" class="hover:text-[var(--am-text)] transition-colors">Status</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold mb-3 am-display" style="color: var(--am-text);">Company</h4>
+          <h4 class="font-semibold mb-3" style="color: var(--am-text);">Company</h4>
           <ul class="space-y-2" style="color: var(--am-text-muted);">
-            <li><a href="/about" class="hover:text-white">About</a></li>
+            <li><a href="/about" class="hover:text-[var(--am-text)] transition-colors">About</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold mb-3 am-display" style="color: var(--am-text);">App</h4>
+          <h4 class="font-semibold mb-3" style="color: var(--am-text);">App</h4>
           <ul class="space-y-2" style="color: var(--am-text-muted);">
-            <li><a href={`${APP_URL}/login`} class="hover:text-white">Sign In</a></li>
-            <li><a href={`${APP_URL}/signup`} class="hover:text-white">Create Account</a></li>
+            <li><a href={`${APP_URL}/login`} class="hover:text-[var(--am-text)] transition-colors">Sign In</a></li>
+            <li><a href={`${APP_URL}/signup`} class="hover:text-[var(--am-text)] transition-colors">Create Account</a></li>
           </ul>
         </div>
       </div>

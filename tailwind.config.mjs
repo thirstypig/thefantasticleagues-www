@@ -5,17 +5,18 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Score Sheet outfield green palette
         brand: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#1a75ff',
-          600: '#1560d4',
-          700: '#104baa',
-          800: '#0c3880',
-          900: '#0a2d66',
+          50:  '#eef7f1',
+          100: '#d4eedd',
+          200: '#a8ddb9',
+          300: '#82c896',  // --am-accent (dark mode CTA)
+          400: '#6db584',
+          500: '#539669',
+          600: '#3d7a52',
+          700: '#2a5e3d',
+          800: '#1f5a3d',  // --am-accent (light mode)
+          900: '#153d2a',
         },
       },
       fontFamily: {

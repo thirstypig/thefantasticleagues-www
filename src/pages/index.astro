@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import AdUnit from '../components/AdUnit.astro';
 const APP_URL = "https://app.thefantasticleagues.com";
 
 const scoringFormats = [
@@ -73,6 +74,11 @@ const pricingTiers = [
     </div>
     <p class="text-xs mt-4" style="color: var(--am-text-faint);">No credit card required</p>
   </section>
+
+  <!-- Ad unit 1 — below hero, above formats -->
+  <div class="max-w-3xl mx-auto px-4 pb-4">
+    <AdUnit slot="0000000001" format="horizontal" />
+  </div>
 
   <!-- Divider -->
   <div class="max-w-5xl mx-auto px-4" style="border-top: 1px solid var(--am-border);"></div>

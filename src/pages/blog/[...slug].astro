@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import AdUnit from '../../components/AdUnit.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -65,6 +66,11 @@ const readingTime = Math.max(1, Math.round(words / 200));
     <!-- Article body -->
     <div class="blog-content">
       <Content />
+    </div>
+
+    <!-- Ad unit 2 — after article body, before CTA -->
+    <div class="mt-12 mb-4">
+      <AdUnit slot="0000000002" format="auto" />
     </div>
 
     <!-- End CTA -->

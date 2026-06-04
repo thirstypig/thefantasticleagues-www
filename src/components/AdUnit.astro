@@ -1,26 +1,24 @@
 ---
-// TODO: Replace slot with the real 10-digit ID from AdSense dashboard
-// (AdSense → Ads → By ad unit → create a Display ad → copy data-ad-slot value)
 interface Props {
   slot: string;
-  format?: "auto" | "rectangle" | "horizontal";
+  format?: "auto" | "fluid" | "rectangle" | "horizontal";
+  layout?: "in-article";
 }
-const { slot, format = "auto" } = Astro.props;
+const { slot, format = "auto", layout } = Astro.props;
+const isInArticle = layout === "in-article";
 ---
 
 <div class="ad-unit-wrap">
   <ins class="adsbygoogle"
-       style="display:block"
+       style={isInArticle ? "display:block; text-align:center;" : "display:block;"}
        data-ad-client="ca-pub-7103672049879516"
        data-ad-slot={slot}
        data-ad-format={format}
-       data-full-width-responsive="true"></ins>
+       data-ad-layout={layout}
+       data-full-width-responsive={isInArticle ? undefined : "true"}></ins>
   <script is:inline>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
 <style>
-  .ad-unit-wrap {
-    width: 100%;
-    overflow: hidden;
-  }
+  .ad-unit-wrap { width: 100%; overflow: hidden; }
 </style>

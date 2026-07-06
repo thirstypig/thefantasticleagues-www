@@ -169,23 +169,72 @@ const pricingTiers = [
   <section class="max-w-2xl mx-auto px-4 py-16 text-center">
     <h2 class="text-2xl font-bold mb-3" style="color: var(--am-text);">Stay in the Loop</h2>
     <p class="mb-8 text-sm" style="color: var(--am-text-muted);">Get notified when Pro and Commissioner tiers launch, plus early access to new features.</p>
-    <form action="https://app.thefantasticleagues.com/api/auth/subscribe" method="POST" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+    <form id="signup-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" novalidate>
       <input
         type="email"
         name="email"
         placeholder="you@example.com"
         required
+        autocomplete="email"
         class="flex-1 px-4 py-2.5 rounded-lg text-sm focus:outline-none"
         style="background: var(--am-surface); border: 1px solid var(--am-border); color: var(--am-text);"
         onfocus="this.style.borderColor='var(--am-accent)'"
         onblur="this.style.borderColor='var(--am-border)'"
       />
+      <!-- Honeypot: hidden from people, tempting to bots. Real users leave it empty. -->
+      <input
+        type="text"
+        name="website"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+        style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+      />
       <button type="submit" class="am-btn-primary px-6 py-2.5 text-sm whitespace-nowrap">
         Notify Me
       </button>
     </form>
-    <p class="text-xs mt-3" style="color: var(--am-text-faint);">No spam. Unsubscribe anytime.</p>
+    <p id="signup-msg" role="status" aria-live="polite" class="text-sm mt-4" style="min-height:1.25rem;"></p>
+    <p class="text-xs mt-1" style="color: var(--am-text-faint);">No spam. Unsubscribe anytime. We only ever store your email.</p>
   </section>
+
+  <script>
+    const form = document.getElementById('signup-form') as HTMLFormElement | null;
+    const msg = document.getElementById('signup-msg');
+    const SUBSCRIBE_URL = 'https://app.thefantasticleagues.com/api/public/subscribe';
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!msg) return;
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      const website = (form.elements.namedItem('website') as HTMLInputElement).value; // honeypot
+
+      btn.disabled = true;
+      msg.textContent = '';
+      try {
+        const res = await fetch(SUBSCRIBE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, website }),
+        });
+        const data = await res.json().catch(() => ({} as { message?: string; error?: string }));
+        if (res.ok) {
+          form.style.display = 'none';
+          msg.textContent = data.message || 'Thanks! Check your inbox to confirm your email.';
+          msg.style.color = 'var(--am-accent)';
+        } else {
+          msg.textContent = data.error || 'Something went wrong. Please try again.';
+          msg.style.color = '#dc2626';
+          btn.disabled = false;
+        }
+      } catch {
+        msg.textContent = 'Network error — please try again.';
+        msg.style.color = '#dc2626';
+        btn.disabled = false;
+      }
+    });
+  </script>
 
   <!-- Final CTA -->
   <section class="text-center py-20 px-4">

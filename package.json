@@ -8,7 +8,7 @@
     "dev:astro": "astro dev --port 3011",
     "build": "astro build",
     "build:tina": "tinacms build && astro build",
-    "preview": "astro preview",
+    "preview": "astro preview --port 3011",
     "astro": "astro"
   },
   "dependencies": {

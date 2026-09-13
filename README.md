@@ -8,13 +8,13 @@ Built with **Astro** + **Tina.io CMS**. Deployed to **GitHub Pages**.
 
 ```bash
 npm install
-npm run dev    # Starts Astro + Tina at http://localhost:3030
+npm run dev    # Starts Astro + Tina at http://localhost:3011
 ```
 
 ## Content Management
 
 Blog posts and changelog entries are managed via Tina CMS:
-- Local: `http://localhost:3030/admin`
+- Local: `http://localhost:3011/admin`
 - Cloud: Connect to [Tina Cloud](https://app.tina.io) for visual editing
 
 Content lives in `content/` as MDX files, committed to git.
